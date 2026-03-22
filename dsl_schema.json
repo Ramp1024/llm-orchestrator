@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "required": ["intentType", "activityName", "operations"],
+  "properties": {
+    "intentType": {
+      "type": "string"
+    },
+    "activityName": {
+      "type": "string"
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "sourceAction", "newLabels"],
+        "properties": {
+          "type": {
+            "enum": ["clone_action"]
+          },
+          "sourceAction": {
+            "type": "string"
+          },
+          "newLabels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
