@@ -1,19 +1,29 @@
 import json
 from openai import OpenAI
+from openai import RateLimitError
+from dotenv import load_dotenv
 
-client = OpenAI()
+load_dotenv(override=True)
 
 def generate_dsl(prompt, config, tool):
 
     system_prompt = tool.generate_prompt(config, prompt)
 
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": prompt}
-        ]
-    )
+    client = OpenAI()
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-5-mini",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": prompt}
+            ]
+        )
+    except RateLimitError as exc:
+        raise RuntimeError(
+            "OpenAI quota check failed (429 insufficient_quota). "
+            "Verify that OPENAI_API_KEY in .env belongs to the same billed project/org and has available credits."
+        ) from exc
 
     content = response.choices[0].message.content
     

@@ -1,10 +1,11 @@
 import json
+from dotenv import load_dotenv
+
+load_dotenv(override=True)
+
 from intent_classifier import classify_intent
 from llm_service import generate_dsl
-import os
-from dsl_models import WorkflowDSL
 from tool_registry import TOOLS
-print(os.getenv("OPENAI_API_KEY"))
 
 def load_config():
     with open("sample_config.json") as f:
