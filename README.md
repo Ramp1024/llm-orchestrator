@@ -6,7 +6,25 @@ A prototype demonstrating how LLMs translate natural language instructions into 
 
 Enterprise workflow systems require complex configuration changes through JSON/XML manipulation. This prototype explores natural language interfaces for workflow configuration using LLM-driven intent classification and structured DSL generation.
 
-**Example**: "Clone Send for Review into Send for Internal Review and Send for External Review" → Validated DSL → Executed transformation → Updated configuration.
+## Usage Example
+
+```bash
+$ python main.py
+Enter instruction:
+> Clone SendforReview into Send for Internal Review and Send for External Review
+
+Classified intent: clone_action
+Using tool: clone_action - Create new actions from an existing one
+
+Generated DSL:
+{
+  "type": "clone_action",
+  "sourceAction": "SendforReview",
+  "newLabels": ["Send for Internal Review", "Send for External Review"]
+}
+
+Final API Payload: [updated configuration with new actions]
+```
 
 ## Architecture Rationale
 
@@ -113,26 +131,6 @@ API Payload
 - **Validation**: Pydantic v2 (type-safe schemas)
 - **Language**: Python 3.x
 - **Architecture Pattern**: Tool Registry + DSL Interpreter
-
-## Usage Example
-
-```bash
-$ python main.py
-Enter instruction:
-> Clone SendforReview into Send for Internal Review and Send for External Review
-
-Classified intent: clone_action
-Using tool: clone_action - Create new actions from an existing one
-
-Generated DSL:
-{
-  "type": "clone_action",
-  "sourceAction": "SendforReview",
-  "newLabels": ["Send for Internal Review", "Send for External Review"]
-}
-
-Final API Payload: [updated configuration with new actions]
-```
 
 ## What I Learned
 
